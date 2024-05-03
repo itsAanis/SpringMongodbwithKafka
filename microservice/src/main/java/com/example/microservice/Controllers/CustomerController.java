@@ -2,13 +2,13 @@ package com.example.microservice.Controllers;
 
 import com.example.microservice.Controllers.Dtos.CustomerDto;
 import com.example.microservice.Entities.Customer;
+import com.example.microservice.KafkaProducer;
 import com.example.microservice.Repositories.CustomerRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,13 +18,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CustomerController {
 
     CustomerRepository customerRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+     KafkaProducer kafkaProducer;
     private final ObjectMapper objectMapper;
 
     @Autowired
-            public CustomerController(CustomerRepository customerRepository, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
+            public CustomerController(CustomerRepository customerRepository,ObjectMapper objectMapper, KafkaProducer kafkaProducer) {
                 this.customerRepository = customerRepository;
-        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaProducer = kafkaProducer;
         this.objectMapper = objectMapper;
     }
 
@@ -39,7 +39,7 @@ public class CustomerController {
        Customer  returned = customerRepository.save(customer);
        // kafka here
         String customerJson = objectMapper.writeValueAsString(customer);
-        kafkaTemplate.send("customer-topic", customerJson);
+        kafkaProducer.sendMessage("customer-topic", customerJson);
         return ResponseEntity.ok(returned);
     }
 
