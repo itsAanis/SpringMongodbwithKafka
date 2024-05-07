@@ -32,6 +32,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
+	implementation("com.dashjoin:jsonata:0.9.6")
+	implementation ("com.google.code.gson:gson:2.10.1")
 }
 
 tasks.withType<Test> {
