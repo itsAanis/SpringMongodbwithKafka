@@ -23,12 +23,8 @@ public class DataService {
         String jsonData = jsonReader.readJson();
         Gson gson = new Gson();
         var data = gson.fromJson(jsonData, Object.class);
-        //   System.out.println(jsonData.toString());
         String expressionJson = jsonReader.readExpression();
-     //   System.out.println(expressionJson.toString());
         var expression = jsonata(expressionJson);
-      //  var expression = jsonData();
-
         var result = expression.evaluate(data);
         System.out.println(result);
         return result;

@@ -2,13 +2,14 @@
   "results": orders[].{
     "DealerDescription": dealers[id=$.dealerId].description,
     "OrderReference": $.reference,
+
     "Mobile": customer[id=$.customerId].contact[0].mobile,
     "Postcode": customer[id=$.customerId].postCode,
     "Parts": partIds[].{
       "PartDescription": parts[id=$.id].description,
       "Price": parts[id=$.id].price,
       "OrderDate": $$.orderDate,
-      "PropsedDeliveryDate": $.propsedDeliveryDate
+      "ProposedDeliveryDate": $.propsedDeliveryDate
     }
 }
 }
